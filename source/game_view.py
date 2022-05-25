@@ -42,6 +42,11 @@ class GameView(arcade.View):
 
         self.start_new_game()
 
+        # add sound effects 
+
+        self.laser_sound = arcade.load_sound(":resources:sounds/hurt5.wav")
+        self.hit_sound = arcade.load_sound(":resources:sounds/explosion1.wav")
+
     def start_new_game(self):
         """Set up the game and initialize the variables."""
 
@@ -98,6 +103,8 @@ class GameView(arcade.View):
         )
         self.set_laser_vector(laser_sprite, 5)
 
+        arcade.play_sound(self.laser_sound)
+
     def set_laser_vector(self, laser_sprite, laser_speed):
         """Calculate the direction the ship is currently firing lasers"""
 
@@ -148,6 +155,8 @@ class GameView(arcade.View):
                     explosion = ExplosionMaker(self.window.get_size(), target.position, target.get_color())
                     self.explosion_list.append(explosion)
                     self.score += 1
+
+                    arcade.play_sound(self.hit_sound)
 
             if len(targets_hit) > 0:
                 laser.remove_from_sprite_lists()
